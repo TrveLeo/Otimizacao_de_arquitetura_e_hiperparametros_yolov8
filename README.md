@@ -48,6 +48,8 @@ As modificações se concentraram na *backbone*, responsável pela extração de
 características — a *head* da YOLO já é projetada para a detecção e
 classificação finais.
 
+![Diagrama do laço de busca automatizada: espaço de busca, Optuna com TPE, treino e validação, função objetivo, e a realimentação do resultado de cada trial](assets/03_metodo.png)
+
 ### Espaço de busca — arquitetura
 
 A cada *trial*, a *backbone* sofria uma de três operações: acrescentar uma
@@ -118,6 +120,8 @@ Validação dos três modelos, 100 épocas de treinamento cada:
 | Modelo 2 | Small + HP otimizados | 0,902 | 0,856 | 0,798 |
 | **Modelo 3** | **Small + HP e arquitetura otimizados** | **0,935** | **0,881** | **0,844** |
 
+![Precision, recall e mAP@50 dos três modelos. O Modelo 3, arquitetura Small otimizada, é o mais alto nas três métricas](assets/01_resultado_modelos.png)
+
 Do Modelo 1 para o Modelo 3: **+10,6 pontos de precision, +8,5 de recall e
 +17,3 de mAP@50** — com uma arquitetura *menor*. A otimização não apenas
 compensou a redução da rede, ela superou o modelo maior.
@@ -133,6 +137,8 @@ Coutinho et al. (2023) avaliaram o mesmo problema com métodos tradicionais e
 | Coutinho et al. — Medium | 0,909 | 0,889 | 0,881 |
 | Coutinho et al. — Large | 0,913 | 0,899 | 0,888 |
 | **Modelo 3 (este trabalho)** | **0,935** | 0,881 | 0,844 |
+
+![Comparação com Coutinho et al. nas três métricas: precision superior, recall equivalente e mAP@50 abaixo da referência](assets/02_vs_literatura.png)
 
 A **precision de 0,935 do Modelo 3 supera todas as três versões de referência,
 incluindo a *Large* (0,913)** — com arquitetura Small e um terço das épocas. O
@@ -211,6 +217,7 @@ imediata.
 | Arquivo | Conteúdo |
 |---|---|
 | [`artigo.pdf`](artigo.pdf) | Artigo completo — método, resultados, discussão e referências |
+| `assets/` | Gráficos deste README. Escala completa de 0 a 1, valores das Tabelas 4 e 5 do artigo |
 | `op_arch.py` | Busca conjunta de arquitetura e hiperparâmetros. Modifica a *backbone* da YOLOv8 a cada *trial* e exporta o YAML resultante |
 | `op_HyperParams.py` | Busca apenas de hiperparâmetros, a partir de um *checkpoint* treinado. Persiste os *trials* em `trials.txt` para retomar o estudo entre execuções |
 | `dados.yaml` / `dados2.yaml` | Arquiteturas resultantes da busca, no formato de modelo da Ultralytics |
